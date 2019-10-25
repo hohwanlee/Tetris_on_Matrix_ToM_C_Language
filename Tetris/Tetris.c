@@ -62,7 +62,11 @@ int drawBorder(int i, int j) {
 int drawBlocks(int i, int j) {
 	int bPrinted = 0;
 	if (i >= PADDING_ROWS && i - PADDING_ROWS < GAME_ROWS && j >= PADDING_COLUMNS && j - PADDING_COLUMNS < GAME_COLUMNS) {
-		if (game[i - PADDING_ROWS][j - PADDING_COLUMNS] > 0) {
+		if (game[i - PADDING_ROWS][j - PADDING_COLUMNS] > 100) {
+			printf("X");
+			bPrinted = 1;
+		}
+		else if (game[i - PADDING_ROWS][j - PADDING_COLUMNS] > 0) {
 			printf("O");
 			bPrinted = 1;
 		}
@@ -107,9 +111,6 @@ int display() {
 
 	return 0;
 }
-
-
-
 int checkCollision(int i, int j) {
 	int bCollision = 0;
 
@@ -187,6 +188,25 @@ int moveAllTheWayDown() {
 	return bCollision;
 }
 
+
+int timeoutMoveDown() {
+	int i, j, bCollision = 0;
+	bCollision = move(1,0);
+	if (bCollision) {
+		for (i = 0; i < GAME_ROWS; i++) {
+			for (j = 0; j < GAME_COLUMNS; j++) {
+				if (game[i][j] > 100) {
+					game[i][j] = 1; // now unmovable block
+					// printf("i : %d, j : %d, game[i][j] : %d\n",i,j, game[i][j]); // for debugging
+				}
+			}
+		}
+	}
+
+	return bCollision;
+}
+
+
 int rotate() {
 	// TODO : Implements
 	return 0;
@@ -204,24 +224,20 @@ int gamePlay(void) {
 		display();
 
 		// TODO: Add auto tick, proceeded without input
-		// TODO: Change 1 second sleep to more smaller scale. like 0.5 sec, 0.1 sec, by using nanosleep.
-		// sleep(1);
+		if (count > 10) {
+			timeoutMoveDown();
+			count = 0;
+		}
+		else {
+			count++;
+		}
 
-		// TODO: Add user input
-
-		/* Source code from
-		*  https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input#comment15290087_448982
-		*  C non-blocking keyboard input
-		*  Answered by Alnitak
-		*/
 
 		struct pollfd mypoll = { STDIN_FILENO, POLLIN | POLLPRI };
 		char stringInput[INPUT_BUFFER_SIZE];
 
-		
-
 		// TODO: Change it to faster polling at release.
-		if (poll(&mypoll, 1, 2000))
+		if (poll(&mypoll, 1, 200))
 		{
 			scanf("%s",stringInput);
 			printf("READ!! - %s", stringInput);
