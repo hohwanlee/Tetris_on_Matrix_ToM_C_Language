@@ -21,10 +21,12 @@
 
 // TODO: Define all shapes of tetris, using struct.
 
+// TODO: Remove arbitary initial values built for debugging
+
 // Define screen as 2D array, and game map as 2D array.
 int screen[SCREEN_ROWS][SCREEN_COLUMNS] = { {0} };
 
-int game[GAME_ROWS][GAME_COLUMNS] = { {0,1,0,0,0,0,0,0,0,0},{1,1,1,0,0,0,0,0,0,0},{0} };
+int game[GAME_ROWS][GAME_COLUMNS] = { {0,100,0,0,0,0,0,0,0,0},{100,100,100,0,0,0,0,0,0,0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{1,0,1,1,1,1,1,1,1,1} }; // initial value for testing drawing
 
 
 // increase score when time pass or a line or more has cleared.
@@ -83,6 +85,20 @@ int drawBorder(int i, int j) {
 }
 
 
+int drawBlocks(int i, int j) {
+	int bPrinted = 0;
+	if (i >= PADDING_ROWS && i - PADDING_ROWS < GAME_ROWS && j >= PADDING_COLUMNS && j - PADDING_COLUMNS < GAME_COLUMNS) {
+		if (game[i - PADDING_ROWS][j - PADDING_COLUMNS] > 0) {
+			printf("O");
+			bPrinted = 1;
+		}
+	}
+
+
+	return bPrinted;
+}
+
+
 // Display with using printf. Check empty space and print " "
 int display() {
 	int i, j;
@@ -97,7 +113,8 @@ int display() {
 		for (j = 0; j < SCREEN_COLUMNS; j++) {
 			bPrinted = 0;
 
-			bPrinted = drawBorder(i, j);
+			// Conditional expression. Check border first and if empty check there is blocks.
+			bPrinted = drawBorder(i, j) ? 1 : drawBlocks(i, j);
 
 			// TODO: Draw blocks inside game.
 
@@ -127,6 +144,7 @@ int gamePlay(void) {
 		display();
 
 		// TODO: Add auto tick, proceeded without input
+		// TODO: Change 1 second sleep to more smaller scale. like 0.5 sec, 0.1 sec, by using nanosleep.
 		sleep(1);
 
 		// TODO: Add user input
