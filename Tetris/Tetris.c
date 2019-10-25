@@ -1,6 +1,7 @@
 #include<stdio.h>
+#include <poll.h>
+#include <unistd.h>
 #include "Tetris.h"
-#include "NonBlockingInputs.h"
 
 
 
@@ -110,6 +111,9 @@ int display() {
 
 
 int gamePlay(void) {
+	char buf[10];
+	int count = 0;
+
 	int infiniteLoop = 1;
 	while (infiniteLoop) {
 		// InfiniteLoop for game running
@@ -118,11 +122,36 @@ int gamePlay(void) {
 
 		// TODO: Add auto tick, proceeded without input
 		// TODO: Change 1 second sleep to more smaller scale. like 0.5 sec, 0.1 sec, by using nanosleep.
-		sleep(1);
+		// sleep(1);
 
 		// TODO: Add user input
 
+		/* Source code from
+		*  https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input#comment15290087_448982
+		*  C non-blocking keyboard input
+		*  Answered by Alnitak
+		*/
 
+		struct pollfd mypoll = { STDIN_FILENO, POLLIN | POLLPRI };
+		char stringInput[300];
+
+		puts("Press any key, q to quit");
+
+		// TODO: Change it to faster polling at release.
+		if (poll(&mypoll, 1, 2000))
+		{
+			scanf("%s",stringInput);
+			printf("READ!! - %s", stringInput);
+			// Read char
+		}
+		else
+		{
+			printf("--NO--");
+			// Read nothing
+		}
+
+
+		count++;
 	}
 
 	return 0;
@@ -134,13 +163,19 @@ int warning(void) {
 		nl();
 	}
 	printf("================================================================================\n\n");
-	printf("This game must be run on Columns x Rows = 80x24, and with the font with Courier New\n");
+	printf("This game must be run on Columns x Rows = 80x24, and with the font with Courier New\n\n");	
+	printf("--------------------------------------------------------------------------------\n\n");
+	printf("Use Enter to confirm movement. \n\n");
+	printf("Use ASDW key to move. \n\n");
+	printf("Use Space Bar to rotate. \n\n");
+	printf("Use F key to fall down fast. \n\n");
 	printf("================================================================================\n\n");
 	printf("Press Enter to continue...\n\n");
 	getchar(); // stop for user input.
 }
 
 int main() {
+
 	warning();
 
 	gamePlay();

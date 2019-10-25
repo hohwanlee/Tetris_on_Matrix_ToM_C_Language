@@ -1,4 +1,5 @@
 
+#include <poll.h>
 
 /* Source code from
 *  https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input#comment15290087_448982
