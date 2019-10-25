@@ -1,5 +1,9 @@
 #include<stdio.h>
 
+
+
+// TODO: Separate with header files.
+
 // Screen size. Putty has default of 24x80 characters can be shown.
 #define SCREEN_ROWS 24
 #define SCREEN_COLUMNS 80
@@ -12,6 +16,8 @@
 #define GAME_ROWS 23
 #define GAME_COLUMNS 10
 
+
+// TODO: Define all shapes of tetris, using struct.
 
 // Define screen as 2D array, and game map as 2D array.
 int screen[SCREEN_ROWS][SCREEN_COLUMNS] = { {0} };
@@ -87,6 +93,10 @@ int display() {
 
 			bPrinted = drawBorder(i, j);
 
+			// TODO: Draw blocks inside game.
+
+			// TODO: Draw blocks inside game.
+
 			if (!bPrinted) {
 				printf(" ");
 			}
@@ -105,6 +115,8 @@ int display() {
 int main() {
 
 	display();
+
+	// TODO: Add user input
 
 	return 0;
 }
