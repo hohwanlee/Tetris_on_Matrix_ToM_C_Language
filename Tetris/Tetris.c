@@ -109,10 +109,84 @@ int display() {
 }
 
 
-int move(int x, int y) {
-	// TODO : Implements
-	return 0;
+
+int checkCollision(int i, int j) {
+	int bCollision = 0;
+
+	if (game[i][j] > 0 && game[i][j] < 100 || i >= GAME_ROWS || j >= GAME_COLUMNS || i < 0 || j < 0) {
+		bCollision = 1;
+	}
+
+	return bCollision;
 }
+
+int move(int x, int y) {
+	int i, j, bCollision;
+	bCollision = 0;
+
+	for (i = 0; i < GAME_ROWS; i++) {
+		for (j = 0; j < GAME_COLUMNS; j++) {
+			if (game[i][j] >= 100) {
+				bCollision = bCollision || checkCollision(i + x, j + y);
+			}
+		}
+	}
+	if (!bCollision) {
+		if (x >= 0 && y >= 0) {
+			for (i = GAME_ROWS - 1; i >= 0; i--) {
+				for (j = GAME_COLUMNS - 1; j >= 0; j--) {
+					if (game[i - x][j - y] >= 100) {
+						game[i][j] = game[i - x][j - y];
+						game[i - x][j - y] = 0;
+					}
+				}
+			}
+		}
+		else if (x >= 0 && y < 0) {
+			for (i = 0; i < GAME_ROWS; i++) {
+				for (j = 0; j < GAME_COLUMNS; j++) {
+					if (game[i - x][j - y] >= 100) {
+						game[i][j] = game[i - x][j - y];
+						game[i - x][j - y] = 0;
+					}
+				}
+			}
+		}
+		else if (x < 0 && y >= 0) {
+			for (i = GAME_ROWS - 1; i >= 0; i--) {
+				for (j = GAME_COLUMNS - 1; j >= 0; j--) {
+					if (game[i - x][j - y] >= 100) {
+						game[i][j] = game[i - x][j - y];
+						game[i - x][j - y] = 0;
+					}
+				}
+			}
+		}
+		else if (x < 0 && y < 0) {
+			for (i = 0; i < GAME_ROWS; i++) {
+				for (j = 0; j < GAME_COLUMNS; j++) {
+					if (game[i - x][j - y] >= 100) {
+						game[i][j] = game[i - x][j - y];
+						game[i - x][j - y] = 0;
+					}
+				}
+			}
+		}
+
+	}
+
+	return bCollision;
+}
+int moveAllTheWayDown() {
+	int bCollision = 0;
+
+	while (!bCollision) {
+		bCollision = move(1,0);
+	}
+
+	return bCollision;
+}
+
 int rotate() {
 	// TODO : Implements
 	return 0;
@@ -152,33 +226,41 @@ int gamePlay(void) {
 			scanf("%s",stringInput);
 			printf("READ!! - %s", stringInput);
 			// Read char
-			for (i = 0; i < INPUT_BUFFER_SIZE && stringInput[i] != '\n' && stringInput != '\0'; i++) {
+			for (i = 0; i < 1 && stringInput[i] != '\n' && stringInput != '\0'; i++) {
 				switch (stringInput[i]) {
 				case 'A':
 				case 'a': // A key : Move Left
+					printf("a!!");
+					move(0, -1);
 
 					break;
 				case 'S':
 				case 's': // S key : Move Down
+					printf("s!!");
+					move(1, 0);
 
 					break;
 				case 'D':
 				case 'd': // D key : Move Right
+					printf("d!!");
+					move(0, 1);
 
 					break;
 				case 'W':
 				case 'w': // Rotate block
+					printf("w!!");
+					rotate();
 
 					break;
-				case ' ': // Fall down 
+				case 'X': 
+				case 'x': // Fall down 
 					// move down until collision
+					moveAllTheWayDown();
 					
 
 					break;
 				default:
 					printf("ERROR! Default!");
-					i = 0;
-					i = 99 / i; // Force error
 					break;
 				}
 			}
@@ -207,7 +289,7 @@ int warning(void) {
 	printf("Use Enter to confirm movement. \n\n");
 	printf("Use ASD key to move. \n\n");
 	printf("Use W key to rotate. \n\n");
-	printf("Use Space Bar key to fall down fast. \n\n");
+	printf("Use X key to fall down fast. \n\n");
 	printf("================================================================================\n\n");
 	printf("Press Enter to continue...\n\n");
 	getchar(); // stop for user input.
