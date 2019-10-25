@@ -89,7 +89,10 @@ int display() {
 
 	int bPrinted;
 
-	nl(); // leave top line empty
+	// leave top lines empty because of user inputs left behind. clear it away with new lines to hide.
+	nl();
+	nl();
+
 	for (i = 0; i < SCREEN_ROWS; i++) {
 		for (j = 0; j < SCREEN_COLUMNS; j++) {
 			bPrinted = 0;
@@ -134,9 +137,20 @@ int gamePlay(void) {
 	return 0;
 }
 
+int warning(void) {
+	int i;
+	for (i = 0; i < SCREEN_ROWS - 2; i++) {
+		nl();
+	}
+	printf("================================================================================\n\n");
+	printf("This game must be run on Columns x Rows = 80x24, and with the font with Courier New\n");
+	printf("================================================================================\n\n");
+	printf("Press Enter to continue...\n\n");
+	getchar(); // stop for user input.
+}
 
 int main() {
-
+	warning();
 
 	gamePlay();
 
