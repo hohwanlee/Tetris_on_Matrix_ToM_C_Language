@@ -109,12 +109,21 @@ int display() {
 }
 
 
+int move(int x, int y) {
+	// TODO : Implements
+	return 0;
+}
+int rotate() {
+	// TODO : Implements
+	return 0;
+}
 
 int gamePlay(void) {
 	char buf[10];
 	int count = 0;
 
 	int infiniteLoop = 1;
+	int i;
 	while (infiniteLoop) {
 		// InfiniteLoop for game running
 
@@ -133,9 +142,9 @@ int gamePlay(void) {
 		*/
 
 		struct pollfd mypoll = { STDIN_FILENO, POLLIN | POLLPRI };
-		char stringInput[300];
+		char stringInput[INPUT_BUFFER_SIZE];
 
-		puts("Press any key, q to quit");
+		
 
 		// TODO: Change it to faster polling at release.
 		if (poll(&mypoll, 1, 2000))
@@ -143,6 +152,36 @@ int gamePlay(void) {
 			scanf("%s",stringInput);
 			printf("READ!! - %s", stringInput);
 			// Read char
+			for (i = 0; i < INPUT_BUFFER_SIZE && stringInput[i] != '\n' && stringInput != '\0'; i++) {
+				switch (stringInput[i]) {
+				case 'A':
+				case 'a': // A key : Move Left
+
+					break;
+				case 'S':
+				case 's': // S key : Move Down
+
+					break;
+				case 'D':
+				case 'd': // D key : Move Right
+
+					break;
+				case 'W':
+				case 'w': // Rotate block
+
+					break;
+				case ' ': // Fall down 
+					// move down until collision
+					
+
+					break;
+				default:
+					printf("ERROR! Default!");
+					i = 0;
+					i = 99 / i; // Force error
+					break;
+				}
+			}
 		}
 		else
 		{
@@ -166,9 +205,9 @@ int warning(void) {
 	printf("This game must be run on Columns x Rows = 80x24, and with the font with Courier New\n\n");	
 	printf("--------------------------------------------------------------------------------\n\n");
 	printf("Use Enter to confirm movement. \n\n");
-	printf("Use ASDW key to move. \n\n");
-	printf("Use Space Bar to rotate. \n\n");
-	printf("Use F key to fall down fast. \n\n");
+	printf("Use ASD key to move. \n\n");
+	printf("Use W key to rotate. \n\n");
+	printf("Use Space Bar key to fall down fast. \n\n");
 	printf("================================================================================\n\n");
 	printf("Press Enter to continue...\n\n");
 	getchar(); // stop for user input.
