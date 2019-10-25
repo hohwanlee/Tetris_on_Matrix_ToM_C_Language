@@ -85,6 +85,7 @@ int drawBorder(int i, int j) {
 }
 
 
+// Draw blocks inside of game map.
 int drawBlocks(int i, int j) {
 	int bPrinted = 0;
 	if (i >= PADDING_ROWS && i - PADDING_ROWS < GAME_ROWS && j >= PADDING_COLUMNS && j - PADDING_COLUMNS < GAME_COLUMNS) {
