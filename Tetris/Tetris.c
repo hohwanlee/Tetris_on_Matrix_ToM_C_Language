@@ -5,7 +5,9 @@
 // TODO: Separate with header files.
 
 // Screen size. Putty has default of 24x80 characters can be shown.
-#define SCREEN_ROWS 24
+// ! Top line 0th is glitched with user input, make it empty
+// ! Last line 24th is actually reserved for user input, so total number of SCREEN_ROWS == 24 - 2 = 22
+#define SCREEN_ROWS 22
 #define SCREEN_COLUMNS 80
 
 // We do have border like | - |, we need space between game and screen.
@@ -13,7 +15,7 @@
 #define PADDING_COLUMNS 1
 
 // Square made of GAME_ROWS x COLUMNS is where the tetris block can reside.
-#define GAME_ROWS 23
+#define GAME_ROWS 21
 #define GAME_COLUMNS 10
 
 
@@ -87,6 +89,7 @@ int display() {
 
 	int bPrinted;
 
+	nl(); // leave top line empty
 	for (i = 0; i < SCREEN_ROWS; i++) {
 		for (j = 0; j < SCREEN_COLUMNS; j++) {
 			bPrinted = 0;
@@ -121,7 +124,7 @@ int gamePlay(void) {
 		display();
 
 		// TODO: Add auto tick, proceeded without input
-		sleep(1000);
+		sleep(1);
 
 		// TODO: Add user input
 
