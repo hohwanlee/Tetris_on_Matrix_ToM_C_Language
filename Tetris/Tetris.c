@@ -1,5 +1,5 @@
 #include<stdio.h>
-
+#include <unistd.h>
 
 
 // TODO: Separate with header files.
@@ -95,7 +95,9 @@ int display() {
 
 			// TODO: Draw blocks inside game.
 
-			// TODO: Draw blocks inside game.
+			// TODO: Draw Scores outside game map, but inside screen.
+
+			// TODO: Draw next tetris blocks outside game map, but inside screen.
 
 			if (!bPrinted) {
 				printf(" ");
@@ -111,12 +113,29 @@ int display() {
 
 
 
+int gamePlay(void) {
+	int infiniteLoop = 1;
+	while (infiniteLoop) {
+		// InfiniteLoop for game running
+
+		display();
+
+		// TODO: Add auto tick, proceeded without input
+		sleep(1000);
+
+		// TODO: Add user input
+
+
+	}
+
+	return 0;
+}
+
 
 int main() {
 
-	display();
 
-	// TODO: Add user input
+	gamePlay();
 
 	return 0;
 }
