@@ -1,4 +1,4 @@
-# Tetris_on_Matrix_ToM_C_Language
+# Tetris on Matrix (ToM) C Language Version
 Tetris on Matrix (ToM) is a game designed to be played on Putty with default settings (80x24, Courier New)
 
 Matrix is Linux system where Seneca college studuent submit assignments and practice with Linux.
