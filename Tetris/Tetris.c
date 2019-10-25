@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include <unistd.h>
+#include "Tetris.h"
+#include "NonBlockingInputs.h"
 
 
 // TODO: Separate with header files.
