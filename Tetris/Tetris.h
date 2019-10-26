@@ -84,7 +84,7 @@ const int rotationTypes[7][4][4][4] = {
 // Define screen as 2D array, and game map as 2D array.
 int screen[SCREEN_ROWS][SCREEN_COLUMNS] = { {0} };
 
-int game[GAME_ROWS][GAME_COLUMNS] = { {0}, {0,0,101,0,0,0,0,0,0,0},{0,101,101,101,0,0,0,0,0,0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{1,1,0,1,1,1,1,1,1,1} }; // initial value for testing drawing
+int game[GAME_ROWS][GAME_COLUMNS] = { {0}, {0,0,0,0,0,0,0,0,0,0},{0,101,101,101,0,0,0,0,0,0},{0,0,101,0,0,0,0,0,0,0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{1,1,0,1,1,1,1,1,1,1} }; // initial value for testing drawing
 
 
 // increase score when time pass or a line or more has cleared.

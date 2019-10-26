@@ -188,6 +188,49 @@ int moveAllTheWayDown() {
 	return bCollision;
 }
 
+int pushLines(int i) {
+	// After clearing line, push the line one row down.
+	int j;
+
+	for (; i > 0; i--) {
+		for (j = 0; j < GAME_COLUMNS; j++) {
+			game[i][j] = game[i-1][j];
+		}
+	}
+
+	return 0;
+}
+
+int checkLine() {
+	int i, j;
+	int line;
+
+	int clearedLines = 0;
+	for (i = 0; i < GAME_ROWS; i++) {
+		line = 0;
+
+		for (j = 0; j < GAME_COLUMNS; j++) {
+			if (game[i][j] > 0) {
+				line++;
+			}
+		}
+		if (line == GAME_COLUMNS) {
+			// After clearing line, push the line one row down.
+			clearedLines++;
+			pushLines(i);
+		}
+	}
+	switch (clearedLines) {
+	case 0: printf("No Line Cleared."); break;
+	case 1: printf("1 Line Cleared."); score += 1; break;
+	case 2: printf("2 Lines Cleared."); score += 3; break;
+	case 3: printf("3 Lines Cleared."); score += 5; break;
+	case 4: printf("4 Lines Cleared."); score += 7; break;
+	default: printf("Error!"); break;
+	}
+
+	return clearedLines;
+}
 
 int timeoutMoveDown() {
 	int i, j, bCollision = 0;
@@ -201,6 +244,7 @@ int timeoutMoveDown() {
 				}
 			}
 		}
+		checkLine();
 	}
 
 	return bCollision;
