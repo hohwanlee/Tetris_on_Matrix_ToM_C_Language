@@ -1,7 +1,7 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <poll.h>
 #include <unistd.h>
-#include<time.h> 
+#include <time.h> 
 #include "Tetris.h"
 
 
@@ -153,14 +153,13 @@ int display() {
 			bPrinted = drawBorder(i, j) ? 1 : drawBlocks(i, j) ? 1 : drawScore(i, j);
 
 
-			// TODO: Draw Scores outside game map, but inside screen.
-
 			// TODO: Draw next tetris blocks outside game map, but inside screen.
 
 			if (!bPrinted) {
 				printf(" ");
 			}
 		}
+		//printf("cursorX:%d, cursorY:%d", cursorX, cursorY);
 		nl();
 	}
 
@@ -193,8 +192,8 @@ int move(int x, int y) {
 	if (!bCollision) {
 		// If moving possible
 		// Update cursor
-		cursorX += x;
-		cursorY += y;
+		cursorX += y;
+		cursorY += x;
 
 		// Update block, shifted
 		if (x >= 0 && y >= 0) {
@@ -255,7 +254,7 @@ int moveAllTheWayDown() {
 int callNextBlocks() {
 	int i;
 	int j;
-	int xToPlace = GAME_ROWS / 2;
+	int xToPlace = GAME_COLUMNS / 2;
 	int yToPlace = 0;
 	cursorX = xToPlace;
 	cursorY = yToPlace;
@@ -264,10 +263,11 @@ int callNextBlocks() {
 			game[i+yToPlace][j+xToPlace] = rotationTypes[nextBlock][0][i][j] ? 101 : 0;
 		}
 	}
-
+	currentBlock = nextBlock;
+	rotation = 0;
 	nextBlock = rand() % 7;
 	
-
+	// TODO: Check Collision on callNextBlocks, if true then game over.
 	
 
 	return 0;
@@ -343,7 +343,45 @@ int timeoutMoveDown() {
 
 int rotate() {
 	// TODO : Implements
-	return 0;
+	int i, j, bCollision = 0, bStuck = 0;
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
+			if (rotationTypes[currentBlock][rotation][i][j] > 0) {
+				bCollision = bCollision || checkCollision(i+cursorX, j+cursorY);
+			}
+			
+
+		}
+	}
+
+	if (!bCollision) {
+
+		// Update rotation
+		if (rotation == 4) {
+			rotation = 0;
+		}
+		else {
+			rotation++;
+		}
+
+		// Update game map
+		for (i = 0; i < 4; i++) {
+			for (j = 0; j < 4; j++) {
+				if (game[i + cursorY][j + cursorX] == 101) {
+					game[i + cursorY][j + cursorX] = 0;
+				}
+				if (rotationTypes[currentBlock][rotation][i][j] > 0) {
+					game[i + cursorY][j + cursorX] = 101;
+				}
+
+
+			}
+		}
+
+
+	}
+
+	return bCollision;
 }
 
 int gamePlay(void) {
@@ -449,6 +487,7 @@ int main(){
 	srand(time(0)); // seed for random function which decide next block
 
 	nextBlock = rand(time(0)) % 7;
+	callNextBlocks();
 
 	warning();
 
