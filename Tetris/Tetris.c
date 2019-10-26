@@ -58,6 +58,63 @@ int drawBorder(int i, int j) {
 	return bPrinted;
 }
 
+int drawScore(int i, int j) {
+	int bPrinted = 0;
+	char toPrint = 0;
+	if (i == 0) {
+		switch (j) {
+		case GAME_COLUMNS+PADDING_COLUMNS * 2 + 1 :
+			bPrinted = 1;
+			toPrint = 'S';
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 2:
+			bPrinted = 1;
+			toPrint = 'C';
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 3:
+			bPrinted = 1;
+			toPrint = 'O';
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 4:
+			bPrinted = 1;
+			toPrint = 'R';
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 5:
+			bPrinted = 1;
+			toPrint = 'E';
+			break;
+		}
+	}
+	else if (i == 2) {
+		switch (j) {
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 1:
+			bPrinted = 1;
+			toPrint = score / 10000 + 48; // Convert digit into ASCII
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 2:
+			bPrinted = 1;
+			toPrint = score / 1000 + 48; // Convert digit into ASCII
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 3:
+			bPrinted = 1;
+			toPrint = score / 100 + 48; // Convert digit into ASCII
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 4:
+			bPrinted = 1;
+			toPrint = score / 10 + 48; // Convert digit into ASCII
+			break;
+		case GAME_COLUMNS + PADDING_COLUMNS * 2 + 5:
+			bPrinted = 1;
+			toPrint = score / 1 + 48; // Convert digit into ASCII
+			break;
+		}
+	}
+
+	if (bPrinted) {
+		printf("%c", toPrint);
+	}
+	return bPrinted;
+}
 
 // Draw blocks inside of game map.
 int drawBlocks(int i, int j) {
@@ -93,7 +150,7 @@ int display() {
 			bPrinted = 0;
 
 			// Conditional expression. Check border first and if empty check there is blocks.
-			bPrinted = drawBorder(i, j) ? 1 : drawBlocks(i, j);
+			bPrinted = drawBorder(i, j) ? 1 : drawBlocks(i, j) ? 1 : drawScore(i, j);
 
 
 			// TODO: Draw Scores outside game map, but inside screen.
@@ -121,6 +178,7 @@ int checkCollision(int i, int j) {
 	return bCollision;
 }
 
+// Move left, right, down when key-press or timeout happens
 int move(int x, int y) {
 	int i, j, bCollision;
 	bCollision = 0;
@@ -258,6 +316,7 @@ int checkLine() {
 
 	return clearedLines;
 }
+
 
 int timeoutMoveDown() {
 	int i, j, bCollision = 0, bStuck = 0;
