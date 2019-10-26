@@ -1,3 +1,6 @@
+/* README! */
+/* It cannot run on Windows */
+/* Copy Tetris.c & Tetris.h and launch it on a Linux terminal. */
 #include <stdio.h>
 #include <poll.h>
 #include <unistd.h>
