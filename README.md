@@ -17,7 +17,7 @@ https://youtu.be/MztAdJ2iOrE
 # What I learned through this project : 
 1. How to use GitHub and how to connect to Visual Studio IDE.
 
-2. How to upload, edit, commit with GitHub.
+2. How to upload, edit, commit with GitHub, including pictures.
 
 3. How to make games on Textual User Interface (TUI) such as Putty. I used various system calls, including poll to wait for input.
 
