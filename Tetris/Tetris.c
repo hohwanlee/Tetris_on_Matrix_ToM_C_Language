@@ -313,6 +313,9 @@ int checkLine() {
 	case 4: printf("4 Lines Cleared."); score += 7; break;
 	default: printf("Error!"); break;
 	}
+	if (clearedLines) {
+		difficultySettings();
+	}
 
 	return clearedLines;
 }
@@ -338,6 +341,11 @@ int timeoutMoveDown() {
 	}
 
 	return bCollision;
+}
+
+int difficultySettings() {
+	intervalTick = 10000.0 / (5*score + 10);
+	return 0;
 }
 
 
@@ -396,7 +404,7 @@ int gamePlay(void) {
 		display();
 
 		// TODO: Add auto tick, proceeded without input
-		if (count > 10) {
+		if (count > intervalTick) {
 			timeoutMoveDown();
 			count = 0;
 		}
@@ -409,34 +417,34 @@ int gamePlay(void) {
 		char stringInput[INPUT_BUFFER_SIZE];
 
 		// TODO: Change it to faster polling at release.
-		if (poll(&mypoll, 1, 200))
+		if (poll(&mypoll, 1, 3))
 		{
 			scanf("%s",stringInput);
-			printf("READ!! - %s", stringInput);
+			// printf("READ!! - %s", stringInput);
 			// Read char
 			for (i = 0; i < 1 && stringInput[i] != '\n' && stringInput != '\0'; i++) {
 				switch (stringInput[i]) {
 				case 'A':
 				case 'a': // A key : Move Left
-					printf("a!!");
+					//printf("a!!");
 					move(0, -1);
 
 					break;
 				case 'S':
 				case 's': // S key : Move Down
-					printf("s!!");
+					//printf("s!!");
 					move(1, 0);
 
 					break;
 				case 'D':
 				case 'd': // D key : Move Right
-					printf("d!!");
+					//printf("d!!");
 					move(0, 1);
 
 					break;
 				case 'W':
 				case 'w': // Rotate block
-					printf("w!!");
+					//printf("w!!");
 					rotate();
 
 					break;
@@ -448,14 +456,14 @@ int gamePlay(void) {
 
 					break;
 				default:
-					printf("ERROR! Default!");
+					//printf("ERROR! Default!");
 					break;
 				}
 			}
 		}
 		else
 		{
-			printf("--NO--");
+			//printf("--NO--");
 			// Read nothing
 		}
 
@@ -488,6 +496,7 @@ int main(){
 
 	nextBlock = rand(time(0)) % 7;
 	callNextBlocks();
+	difficultySettings();
 
 	warning();
 

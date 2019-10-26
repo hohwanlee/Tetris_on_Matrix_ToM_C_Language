@@ -32,7 +32,7 @@ struct TypesTetris {
 	struct RotationsType rotationsType[4];
 };
 
-int cursorX = 0, cursorY = 0, shape = 0, rotation = 0, nextBlock = 0, currentBlock = 0;
+int cursorX = 0, cursorY = 0, shape = 0, rotation = 0, nextBlock = 0, currentBlock = 0, intervalTick = 1000;
 
 const int rotationTypes[7][4][4][4] = {
 	{ // |
