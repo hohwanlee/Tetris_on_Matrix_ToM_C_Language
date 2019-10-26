@@ -6,7 +6,7 @@ Matrix is Linux system where Seneca college studuent submit assignments and prac
 It is named as Tetris on Matrix to give the rhythm. Yeh, as saying goes "Give yourself to the rhythm." by Lúcio in Overwatch.
 
 
-![alt text](https://raw.github.com/hohwanlee/Tetris_on_Matrix_ToM_C_Language/blob/master/Screenshots/SS_%20-19.10.25%3B%20%20008%20Draw%20Score%20is%20now%20possible.gif)
+![alt text](https://raw.githubusercontent.com/hohwanlee/Tetris_on_Matrix_ToM_C_Language/master/Screenshots/SS_%20-19.10.25%3B%20%20008%20Draw%20Score%20is%20now%20possible.gif)
 
 # What I learned through this project : 
 
