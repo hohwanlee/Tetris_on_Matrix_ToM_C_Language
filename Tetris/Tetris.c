@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include <poll.h>
 #include <unistd.h>
+#include<time.h> 
 #include "Tetris.h"
 
 
@@ -94,7 +95,6 @@ int display() {
 			// Conditional expression. Check border first and if empty check there is blocks.
 			bPrinted = drawBorder(i, j) ? 1 : drawBlocks(i, j);
 
-			// TODO: Draw blocks inside game.
 
 			// TODO: Draw Scores outside game map, but inside screen.
 
@@ -133,6 +133,12 @@ int move(int x, int y) {
 		}
 	}
 	if (!bCollision) {
+		// If moving possible
+		// Update cursor
+		cursorX += x;
+		cursorY += y;
+
+		// Update block, shifted
 		if (x >= 0 && y >= 0) {
 			for (i = GAME_ROWS - 1; i >= 0; i--) {
 				for (j = GAME_COLUMNS - 1; j >= 0; j--) {
@@ -188,6 +194,27 @@ int moveAllTheWayDown() {
 	return bCollision;
 }
 
+int callNextBlocks() {
+	int i;
+	int j;
+	int xToPlace = GAME_ROWS / 2;
+	int yToPlace = 0;
+	cursorX = xToPlace;
+	cursorY = yToPlace;
+	for (i = 0; i < 4; i++ ) {
+		for (j = 0; j < 4; j++) {
+			game[i+yToPlace][j+xToPlace] = rotationTypes[nextBlock][0][i][j] ? 101 : 0;
+		}
+	}
+
+	nextBlock = rand() % 7;
+	
+
+	
+
+	return 0;
+}
+
 int pushLines(int i) {
 	// After clearing line, push the line one row down.
 	int j;
@@ -233,18 +260,22 @@ int checkLine() {
 }
 
 int timeoutMoveDown() {
-	int i, j, bCollision = 0;
+	int i, j, bCollision = 0, bStuck = 0;
 	bCollision = move(1,0);
 	if (bCollision) {
 		for (i = 0; i < GAME_ROWS; i++) {
 			for (j = 0; j < GAME_COLUMNS; j++) {
 				if (game[i][j] > 100) {
+					bStuck = 1;
 					game[i][j] = 1; // now unmovable block
 					// printf("i : %d, j : %d, game[i][j] : %d\n",i,j, game[i][j]); // for debugging
 				}
 			}
 		}
 		checkLine();
+	}
+	if (bStuck) {
+		callNextBlocks();
 	}
 
 	return bCollision;
@@ -355,7 +386,10 @@ int warning(void) {
 	getchar(); // stop for user input.
 }
 
-int main() {
+int main(){
+	srand(time(0)); // seed for random function which decide next block
+
+	nextBlock = rand(time(0)) % 7;
 
 	warning();
 
