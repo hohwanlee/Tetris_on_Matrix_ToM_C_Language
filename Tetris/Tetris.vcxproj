@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="Tetris.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tetris.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{9962F79D-8720-4CFE-92E3-2ED24E3135D5}</ProjectGuid>
